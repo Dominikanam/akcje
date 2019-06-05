@@ -27,12 +27,3 @@ const thumbDownComment = (id) => ({
 	type: THUMB_DOWN_COMMENT,
 	id
 });
-
-function users(state = [], action) {
-	switch (action.type) {
-	case 'NEW_USER':
-	  return [...state, action.name]
-	default:
-	  return state;
-	}
-}
