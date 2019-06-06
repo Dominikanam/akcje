@@ -2,13 +2,6 @@ import { ADD_COMMENT, REMOVE_COMMENT, EDIT_COMMENT, THUMB_UP_COMMENT, THUMB_DOWN
 
 const initialState = [];
 
-const updateComment = (state, action, update) =>
-	state.map(comment => comment.id === action.id ? update(comment, action) : comment);
-
-const edit = (comment, action) => ({ ...comment, text: action.text });
-const voteUp = comment => ({ ...comment, votes: comment.votes + 1});
-const voteDown = comment => ({ ...comment, votes: comment.votes - 1});
-
 export default (state = initialState, action) => {
 	switch(action.type) {
         case ADD_COMMENT:
@@ -25,15 +18,14 @@ export default (state = initialState, action) => {
 			return state.filter(comment => comment.id !== action.id);
 
 		case THUMB_UP_COMMENT:
-			return updateComment(state, action, voteUp);
+			return state.map(comment => (comment.id === action.id) ? { ...comment, votes: comment.votes + 1} : comment );
 
 		case THUMB_DOWN_COMMENT:
-			return updateComment(state, action, voteDown);
+			return state.map(comment => (comment.id === action.id) ? { ...comment, votes: comment.votes - 1} : comment );
 
 		case EDIT_COMMENT:
-			return updateComment(state, action, edit);
-
-        default:
+			return state.map(comment => (comment.id === action.id) ? { ...comment, text: comment.text } : comment );
+		default:
             return state;
     }
 };
