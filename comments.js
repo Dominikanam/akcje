@@ -2,19 +2,8 @@ import { ADD_COMMENT, REMOVE_COMMENT, EDIT_COMMENT, THUMB_UP_COMMENT, THUMB_DOWN
 
 const initialState = [];
 
-const updateComment = (state, action, update) => {
-	const comments = [...state];
-	const itemIndex = comments.findIndex(comment => comment.id === action.id);
-
-	if (!itemIndex < 0) {
-		return state;
-	}
-
-	const item = comments[itemIndex];
-	comments[itemIndex] = update(item, action);
-
-	return comments;
-};
+const updateComment = (state, action, update) =>
+	state.map(comment => comment.id === action.id ? update(comment, action) : comment);
 
 const edit = (comment, action) => ({ ...comment, text: action.text });
 const voteUp = comment => ({ ...comment, votes: comment.votes + 1});
